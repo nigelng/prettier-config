@@ -3,4 +3,5 @@
 .editorconfig
 .envrc
 .yarnrc.yml
-shell.nix
+flake.nix
+flake.lock
