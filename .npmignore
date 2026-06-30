@@ -1,7 +1,0 @@
-*-prettier-config*.tgz
-.babelrc
-.editorconfig
-.envrc
-.yarnrc.yml
-flake.nix
-flake.lock

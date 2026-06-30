@@ -7,9 +7,9 @@ See [sharing configurations](https://prettier.io/docs/configuration#sharing-conf
 ## Requirements
 
 - **Node.js** 20 or newer
-- **Prettier** 3.8.3 or newer (`^3.8.3`)
+- **Prettier** 3.0.0 or newer (`>=3.0.0`)
 
-Version **1.x** of this package targets Prettier 2. Stay on 1.x until you upgrade Prettier in your project.
+Version **1.x** targets Prettier 2. Version **2.x** targets Prettier 3 with a JSON entry point. Stay on 2.x if you cannot migrate to ESM imports.
 
 ## Install
 
@@ -19,6 +19,8 @@ yarn add -D prettier @nigelng/prettier-config
 
 ## Use
 
+### Web (default)
+
 In `package.json`:
 
 ```json
@@ -27,15 +29,58 @@ In `package.json`:
 }
 ```
 
-Or in `.prettierrc.json`:
+### React Native
 
-```json
-"@nigelng/prettier-config"
+In `prettier.config.mjs`:
+
+```js
+import config from '@nigelng/prettier-config/react-native'
+export default config
+```
+
+Or extend and override:
+
+```js
+import base from '@nigelng/prettier-config/react-native'
+export default { ...base, printWidth: 120 }
+```
+
+### Electron
+
+In `prettier.config.mjs`:
+
+```js
+import config from '@nigelng/prettier-config/electron'
+export default config
+```
+
+Electron projects use the same rules as web — this entry point exists for explicitness.
+
+### Extending the base config
+
+```js
+import base from '@nigelng/prettier-config'
+export default { ...base, semi: true }
 ```
 
 ## Options
 
-The published config keeps the same formatting choices as the 1.x line, including `trailingComma: "es5"` (Prettier 3 defaults to `"all"` if omitted) and `bracketSameLine: false` (renamed from the deprecated `jsxBracketSameLine`).
+| Option            | Value                             |
+| ----------------- | --------------------------------- |
+| `printWidth`      | `88` (`100` for React Native)     |
+| `tabWidth`        | `2`                               |
+| `useTabs`         | `false`                           |
+| `semi`            | `false`                           |
+| `singleQuote`     | `true`                            |
+| `quoteProps`      | `"as-needed"`                     |
+| `trailingComma`   | `"es5"`                           |
+| `bracketSpacing`  | `true`                            |
+| `jsxSingleQuote`  | `false` (`true` for React Native) |
+| `bracketSameLine` | `false`                           |
+| `arrowParens`     | `"always"`                        |
+| `endOfLine`       | `"lf"`                            |
+
+`trailingComma: "es5"` is set explicitly (Prettier 3 defaults to `"all"` if omitted).
 
 ## Develop
 

@@ -1,24 +1,32 @@
 {
   "name": "@nigelng/prettier-config",
-  "version": "2.0.0",
+  "version": "3.0.0",
+  "description": "Shared Prettier configuration for Nigel Nguyen projects",
   "author": "Nigel Nguyen <nigel@nng.me>",
   "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./index.js",
+    "./react-native": "./react-native.js",
+    "./electron": "./electron.js"
+  },
   "files": [
-    "index.json"
+    "index.js",
+    "react-native.js",
+    "electron.js"
   ],
   "repository": {
     "type": "git",
     "url": "git@github.com:nigelng/prettier-config.git"
   },
-  "main": "index.json",
   "packageManager": "yarn@4.16.0",
   "devDependencies": {
     "prettier": "3.8.3"
   },
   "engines": {
-    "node": ">= 20"
+    "node": ">= 24"
   },
   "peerDependencies": {
-    "prettier": "^3.8.3"
+    "prettier": ">=3.0.0"
   }
 }
