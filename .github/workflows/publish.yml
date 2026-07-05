@@ -21,9 +21,13 @@ jobs:
 
       - name: Install Deps
         run: yarn install --immutable
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check Formatting
         run: yarn format:check
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish Pkg
         run: yarn npm publish

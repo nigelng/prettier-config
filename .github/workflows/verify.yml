@@ -19,5 +19,7 @@ jobs:
           node-version: 24
       - name: Install Deps
         run: yarn install --immutable
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Check Formatting
         run: yarn format:check
