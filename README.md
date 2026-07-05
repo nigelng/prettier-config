@@ -6,10 +6,10 @@ See [sharing configurations](https://prettier.io/docs/configuration#sharing-conf
 
 ## Requirements
 
-- **Node.js** 20 or newer
-- **Prettier** 3.8.3 or newer (`^3.8.3`)
+- **Node.js** 24 or newer
+- **Prettier** 3.0.0 or newer (`>=3.0.0`)
 
-Version **1.x** of this package targets Prettier 2. Stay on 1.x until you upgrade Prettier in your project.
+Version **1.x** targets Prettier 2. Version **2.x** targets Prettier 3 with a JSON entry point. Stay on 2.x if you cannot migrate to ESM imports.
 
 ## Install
 
@@ -19,6 +19,8 @@ yarn add -D prettier @nigelng/prettier-config
 
 ## Use
 
+### Web (default)
+
 In `package.json`:
 
 ```json
@@ -27,19 +29,44 @@ In `package.json`:
 }
 ```
 
-Or in `.prettierrc.json`:
+### React Native
 
-```json
-"@nigelng/prettier-config"
+In `prettier.config.mjs`:
+
+```js
+import config from '@nigelng/prettier-config/react-native'
+export default config
+```
+
+Or extend and override:
+
+```js
+import base from '@nigelng/prettier-config/react-native'
+export default { ...base, printWidth: 120 }
+```
+
+### Extending the base config
+
+```js
+import base from '@nigelng/prettier-config'
+export default { ...base, semi: true }
 ```
 
 ## Options
 
-The published config keeps the same formatting choices as the 1.x line, including `trailingComma: "es5"` (Prettier 3 defaults to `"all"` if omitted) and `bracketSameLine: false` (renamed from the deprecated `jsxBracketSameLine`).
+Only options that override Prettier 3 defaults are set. All other options use Prettier 3 defaults.
+
+| Option           | Value                             |
+| ---------------- | --------------------------------- |
+| `printWidth`     | `100`                             |
+| `semi`           | `false`                           |
+| `singleQuote`    | `true`                            |
+| `trailingComma`  | `"all"`                           |
+| `jsxSingleQuote` | `false` (`true` for React Native) |
 
 ## Develop
 
-This repo uses [Yarn 4.16.0](https://yarnpkg.com/) (vendored under `.yarn/releases/`, matching `packageManager` in `package.json`) with `node-modules` linking. With [direnv](https://direnv.net/) and Nix, `use flake` from `flake.nix` provides Node 24 and that Yarn via `nixos-26.05` (pinned in `flake.lock`).
+This repo uses [Yarn 4.17.0](https://yarnpkg.com/) (vendored under `.yarn/releases/`, matching `packageManager` in `package.json`) with `node-modules` linking. Node 24 is pinned via `.nvmrc`; Yarn is pinned via `packageManager` (Corepack).
 
 ```bash
 gh_token   # sets NODE_AUTH_TOKEN for the GitHub npm scope
@@ -47,10 +74,14 @@ yarn install
 yarn install --immutable   # CI check
 ```
 
-After changing `.envrc`, run `direnv allow` once.
+Pushes to `main` and pull requests run the `verify` workflow (`.github/workflows/verify.yml`) — `yarn format:check`.
 
-Pushes to `main` publish `@nigelng/prettier-config` to GitHub Packages via the workflow in `.github/workflows/publish.yml`.
+To publish a new version:
+
+1. Bump `version` in `package.json` and update `CHANGELOG.md` (change `— unreleased` to the date).
+2. Commit and push to `main`. Wait for `verify` to pass.
+3. `git tag v<version> && git push origin v<version>` — this triggers the `publish` workflow (`.github/workflows/publish.yml`), which runs `yarn format:check` then `yarn npm publish` to GitHub Packages.
 
 ## Status
 
-![Publish Package](https://github.com/nigelng/prettier-config/workflows/Publish%20Package/badge.svg?branch=main)
+![Verify](https://github.com/nigelng/prettier-config/workflows/Verify/badge.svg?branch=main)
