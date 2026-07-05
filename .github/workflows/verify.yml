@@ -12,12 +12,13 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v6
         with:
           node-version: 24
-          cache: yarn
       - name: Install Deps
         run: yarn install --immutable
       - name: Check Formatting
