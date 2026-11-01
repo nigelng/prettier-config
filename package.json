@@ -2,7 +2,7 @@
   "name": "@nigelng/prettier-config",
   "version": "3.0.0",
   "description": "Shared Prettier configuration for Nigel Nguyen projects",
-  "author": "Nigel Nguyen <nigel@nng.me>",
+  "author": "Nigel Nguyen <hello@nng.me>",
   "license": "MIT",
   "type": "module",
   "exports": {
